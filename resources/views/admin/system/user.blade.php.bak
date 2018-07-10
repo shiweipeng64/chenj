@@ -1,0 +1,192 @@
+
+<link href="/admin/vendors/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet">
+<script src="/admin/vendors/zTree/js/jquery.ztree.core.js"></script>
+<script src="/admin/vendors/zTree/js/jquery.ztree.excheck.js"></script>
+			<div class="row">
+			
+            </div>
+               <!-- table content -->
+        <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>用户管理</h2>
+					
+                    <div class="clearfix"></div>
+                    @if(in_array('user-save', session('permissions')))
+					<button type="button" class="btn btn-success btn-xs btn-add">添加</button>
+					@endif
+                  </div>
+				  
+				  <!-- search start -->
+				  <!--
+					<form id="form-search">
+					<div class="btn-group focus-btn-group">
+						<label for="sys_order_num">订单号
+							  <input type="text" id="sys_order_num" class="form-control form-controlNew" name="filter[sys_order_num]"/>
+						</label>
+						
+					</div>
+					
+					<div class="btn-group focus-btn-group">
+						<label for="fullname">查找
+						<button type="button" class="form-control form-controlNew btn btn-primary btn-sm search-btn"><i class="fa fa-search"></i></button>
+						</label>
+					</div>
+					</form>-->
+					<!-- search end -->
+                  <div class="x_content">
+                    <table id="datatable" class="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>用户名</th>
+						  <th>状态</th>
+						  <th>操作</th>
+                        </tr>
+                      </thead>
+						<!-- ajax加载 -->
+                      <tbody>
+						
+                      </tbody>
+                    </table>
+					<div id="AiGrid"><!-- 分页插件 --></div>
+					
+					<!-- 订单列表HTML模板 -->
+					<script type="text/template" id="table_template">
+					<tr>
+						<td>{username}</td>
+						<td>{status_str}</td>			
+						<td>
+							@if(in_array('user-detail', session('permissions')))
+							<button type="button" dataid="{id}" class="btn btn-primary btn-xs btn-detail"><i class="fa fa-folder">详情</i></button>
+							@endif
+							@if(in_array('user-save', session('permissions')))
+							<button type="button" dataid="{id}" class="btn btn-info btn-xs btn-edit"><i class="fa fa-pencil">修改</i></button>
+							@endif
+							@if(in_array('user-delete', session('permissions')))
+							<button type="button" dataid="{id}" class="btn btn-danger btn-xs btn-delete"><i class="fa fa-trash-o">删除</i></button>
+							@endif
+						</td>
+					</tr>
+					</script>
+                  </div>
+				  
+				  <!-- 删除 modal -->
+				  <div id="delete-info" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog"  style="width:30%">
+						<div class="modal-content">
+													
+							<div class="modal-body">
+								确定要删除该信息么？
+							</div>
+							
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default antoclose2" data-dismiss="modal">取消</button>
+								<button type="button" _id="" class="btn btn-primary btn-delete-sure">确定</button>
+							 </div>
+							 
+						</div>
+					</div>
+				  </div>
+				  <!-- 修改详情 modal -->
+				  <div id="edit-detail" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				  <div class="modal-dialog"  style="width:30%">
+					<div class="modal-content">
+
+					  <div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h4 class="modal-title" id="myModalLabel2"></h4>
+					  </div>
+					  <div class="modal-body">
+						
+					
+						<div id="testmodal2" style="padding: 5px 20px;">
+							<input type="hidden" class="form-control form-controlNew" id="id" name="id" value="">
+							<form id="antoform2" class="form-horizontal data-form" role="form">
+							<!-- CSRF TOKEN -->
+							
+							<div class="form-group">
+							  
+								<div class="col-sm-8">
+									<label class="control-label">用户名<span class="required">*</span></label>
+									<input type="text" class="form-control form-controlNew" name="username" placeholder="用户名由不超过20位的字母或数字组成" data-rule-required="true" data-msg-required="请填写名称" data-rule-maxlength='20' data-msg-maxlength='字符长度不超过20'>
+								
+								</div>
+								
+							</div>
+							
+							<div class="form-group">
+								<div class="col-sm-12">
+									<label class="control-label">角色配置(<img src="/admin/vendors/zTree/css/zTreeStyle/img/diy/7.png">--角色分组&nbsp;&nbsp;<img src="/admin/vendors/zTree/css/zTreeStyle/img/diy/6.png">--角色)</label>
+									<ul id="treeDemo" class="ztree"></ul>
+								</div>
+							</div>
+							
+							<div class="form-group">
+							
+								<div class="col-sm-4">
+									<label class="control-label">状态</label>
+									<select name="status" class="form-control form-controlNew">
+										<option value="1">正常</option>
+										<option value="2">禁用</option>										
+									</select>
+								</div>
+								
+							</div>
+
+						  </form>
+						</div>
+						
+					  </div>
+					  <div class="modal-footer">
+						<button type="button" class="btn btn-default antoclose2" data-dismiss="modal">关闭</button>
+						<button type="button" class="btn btn-primary btn-save">保存</button>
+					  </div>
+					</div>
+				  </div>
+				</div>				
+                </div>
+              </div>
+            </div>
+<script>
+
+	var Tree = null;
+	
+	var setting = {
+		check: {
+			enable: true
+		},
+		data: {
+			simpleData: {
+				enable: true,
+				pIdKey: "parent_id",
+			}
+		},
+		chkboxType:{
+			"Y":'ps',
+			"N":'ps'
+		}
+	};
+	
+	var zNodes = <?php echo $role_list;?>;
+
+	for(var k in zNodes){
+		//console.log(zNodes[k]['menu_id'])
+		if(zNodes[k]['type'] == 1){
+			zNodes[k]['icon'] = "/admin/vendors/zTree/css/zTreeStyle/img/diy/6.png";
+
+		}else{
+			zNodes[k]['icon'] = "/admin/vendors/zTree/css/zTreeStyle/img/diy/7.png";
+			zNodes[k]['chkDisabled'] =true;
+		}
+	}
+	
+	$(document).ready(function(){
+		Tree = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+	});
+	
+	
+</script>
+			<script src="/admin/adminJS/system/user_index.js"></script>   	
+
+       
