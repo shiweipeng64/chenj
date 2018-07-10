@@ -11,7 +11,7 @@
 |
 */
 var_dump(file_exists((__DIR__.'/../config')));
-var_dump(class_exists(Illuminate\Contracts\Http\Kernel));exit;
+exit;
 $app = new Illuminate\Foundation\Application(
     realpath(__DIR__.'/../')
 );
