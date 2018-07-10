@@ -10,7 +10,7 @@
 | the IoC container for the system binding all of the various parts.
 |
 */
-var_dump(file_exists((__DIR__.'/../config')));
+var_dump(file_exists((__DIR__.'/../../config')));
 exit;
 $app = new Illuminate\Foundation\Application(
     realpath(__DIR__.'/../')
