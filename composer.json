@@ -36,6 +36,13 @@
             "dont-discover": [
                 "*"
             ]
+        },
+        "heroku": {
+            "document-root": "public",
+            "index-document": "index.php",
+            "compile": [
+                "chmod -R 777 app/storage"
+            ]
         }
     },
     "scripts": {
