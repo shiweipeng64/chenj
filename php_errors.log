@@ -1,0 +1,2 @@
+[26-Mar-2018 07:34:28 UTC] PHP Warning:  require(G:\www\scgd_hang/vendor/autoload.php): failed to open stream: No such file or directory in G:\www\scgd_hang\artisan on line 18
+[26-Mar-2018 07:34:28 UTC] PHP Fatal error:  require(): Failed opening required 'G:\www\scgd_hang/vendor/autoload.php' (include_path='.;C:\php\pear') in G:\www\scgd_hang\artisan on line 18
