@@ -67,7 +67,7 @@ Route::prefix(env('DOMAIN_PREFIX'))->group(function () {
     })->where(['controller'=>'[a-zA-Z0-9\_]+', 'method'=>'[a-zA-Z0-9\_]+']);
 	
 	//接口写法 (/{domain}/api/{version}/{controller}/{method})
-	Route::any('api/{version}/{controller}/{method}', function (Request $request, $version, $controller, $method) {
+	Route::any('/index.php/{domain}/api/{version}/{controller}/{method}', function (Request $request, $version, $controller, $method) {
 		
         $namespace_file = '\\App\\Http\\Controllers\\'.ucwords($controller).'\\V'.$version.'\\'.ucwords($controller).'ApiController';
 		$physics_file   = '\\app\\Http\\Controllers\\'.ucwords($controller).'\\V'.$version.'\\'.ucwords($controller).'ApiController';
