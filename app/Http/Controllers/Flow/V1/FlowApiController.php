@@ -55,7 +55,7 @@ class FlowApiController extends BaseController
 
         foreach ($flowTypeIds as $flowTypeId) {
             //获取所有流程分类
-            $url = "https://beta.skylarkly.com/api/v4/yaw/flows/".$flowTypeId;
+            $url = "https://skylarkly.com/api/v4/yaw/flows/".$flowTypeId;
             $headers = [
                 'Authorization:b064bee78c9be52a293d3b2b2ce87ba53c92668845045649ad600e1ea98bacfa:'.$token,
                 'Content-type:text/json'
@@ -166,7 +166,7 @@ class FlowApiController extends BaseController
             $startPage = 1; //开始页面
             $perPage   = 50;//每页数据
             do{
-                $url = "https://beta.skylarkly.com/api/v4/yaw/flows/".$flowType['flows_type_id']."/journeys?page=".$startPage."&per_page=".$perPage;
+                $url = "https://skylarkly.com/api/v4/yaw/flows/".$flowType['flows_type_id']."/journeys?page=".$startPage."&per_page=".$perPage;
 
                 $headers = [
                     'Authorization:b064bee78c9be52a293d3b2b2ce87ba53c92668845045649ad600e1ea98bacfa:'.$token,
